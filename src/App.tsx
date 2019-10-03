@@ -22,11 +22,12 @@ function Todo({ todo, index, completeTodo, removeTodo }: ITodoComponent) {
     >
       {todo.text}
       <div>
-        <button onClick={() => completeTodo(index)}>
+        <button className="action" onClick={() => completeTodo(index)}>
           {todo.isCompleted ? '❎' : '✅'}
         </button>
-
-        <button onClick={() => removeTodo(index)}>🗑️</button>
+        <button className="action" onClick={() => removeTodo(index)}>
+          🗑️
+        </button>
       </div>
     </div>
   )
@@ -63,15 +64,15 @@ const TodoForm = ({ addTodo }: any): any => {
 function App() {
   const [todos, setTodos] = useState([
     {
-      text: 'Learn about React',
-      isCompleted: false
+      text: 'Open Amazing To-do App',
+      isCompleted: true
     },
     {
-      text: 'Meet friend for lunch',
-      isCompleted: false
+      text: 'Realize you are amazing too',
+      isCompleted: true
     },
     {
-      text: 'Build To-do App',
+      text: 'Add a new task',
       isCompleted: false
     }
   ])
