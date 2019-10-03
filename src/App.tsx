@@ -10,10 +10,48 @@ interface ITodos {
 interface ITodoComponent {
   todo: ITodos
   index: number
+  completeTodo: (i: number) => void
 }
 
-function Todo({ todo, index }: ITodoComponent) {
-  return <div className="todo">{todo.text}</div>
+function Todo({ todo, index, completeTodo }: ITodoComponent) {
+  return (
+    <div
+      style={{ textDecoration: todo.isCompleted ? 'line-through' : 'none' }}
+      className="todo"
+    >
+      {todo.text}
+      <div>
+        <button onClick={() => completeTodo(index)}>
+          {todo.isCompleted ? '❎' : '✅'}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+const TodoForm = ({ addTodo }: any): any => {
+  const [value, setValue] = useState('')
+
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
+    e.preventDefault()
+    if (!value) return
+    addTodo(value)
+    setValue('')
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        className="input"
+        value={value}
+        placeholder="Add Todo..."
+        onChange={e => setValue(e.target.value)}
+      />
+    </form>
+  )
 }
 
 function App() {
@@ -32,12 +70,29 @@ function App() {
     }
   ])
 
+  const addTodo = (text: ITodos['text']): void => {
+    const newTodos = [...todos, { text, isCompleted: false }]
+    setTodos(newTodos)
+  }
+
+  const completeTodo = (index: number): void => {
+    const newTodos = [...todos]
+    newTodos[index].isCompleted = !newTodos[index].isCompleted
+    setTodos(newTodos)
+  }
+
   return (
     <div className="app">
       <div className="todo-list">
         {todos.map((todo, index) => (
-          <Todo key={index} index={index} todo={todo} />
+          <Todo
+            key={index}
+            index={index}
+            todo={todo}
+            completeTodo={completeTodo}
+          />
         ))}
+        <TodoForm addTodo={addTodo} />
       </div>
     </div>
   )
