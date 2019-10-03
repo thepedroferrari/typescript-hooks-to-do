@@ -11,9 +11,10 @@ interface ITodoComponent {
   todo: ITodos
   index: number
   completeTodo: (i: number) => void
+  removeTodo: (i: number) => void
 }
 
-function Todo({ todo, index, completeTodo }: ITodoComponent) {
+function Todo({ todo, index, completeTodo, removeTodo }: ITodoComponent) {
   return (
     <div
       style={{ textDecoration: todo.isCompleted ? 'line-through' : 'none' }}
@@ -24,6 +25,8 @@ function Todo({ todo, index, completeTodo }: ITodoComponent) {
         <button onClick={() => completeTodo(index)}>
           {todo.isCompleted ? '❎' : '✅'}
         </button>
+
+        <button onClick={() => removeTodo(index)}>🗑️</button>
       </div>
     </div>
   )
@@ -50,6 +53,9 @@ const TodoForm = ({ addTodo }: any): any => {
         placeholder="Add Todo..."
         onChange={e => setValue(e.target.value)}
       />
+      <button type="submit" className="submit">
+        Add Task
+      </button>
     </form>
   )
 }
@@ -81,6 +87,12 @@ function App() {
     setTodos(newTodos)
   }
 
+  const removeTodo = (index: number): void => {
+    const newTodos = [...todos]
+    newTodos.splice(index, 1)
+    setTodos(newTodos)
+  }
+
   return (
     <div className="app">
       <div className="todo-list">
@@ -90,6 +102,7 @@ function App() {
             index={index}
             todo={todo}
             completeTodo={completeTodo}
+            removeTodo={removeTodo}
           />
         ))}
         <TodoForm addTodo={addTodo} />
