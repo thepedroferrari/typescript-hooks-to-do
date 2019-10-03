@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css'
+
+interface ITodos {
+  text: string
+  isCompleted: Boolean
 }
 
-export default App;
+interface ITodoComponent {
+  todo: ITodos
+  index: number
+}
+
+function Todo({ todo, index }: ITodoComponent) {
+  return <div className="todo">{todo.text}</div>
+}
+
+function App() {
+  const [todos, setTodos] = useState([
+    {
+      text: 'Learn about React',
+      isCompleted: false
+    },
+    {
+      text: 'Meet friend for lunch',
+      isCompleted: false
+    },
+    {
+      text: 'Build To-do App',
+      isCompleted: false
+    }
+  ])
+
+  return (
+    <div className="app">
+      <div className="todo-list">
+        {todos.map((todo, index) => (
+          <Todo key={index} index={index} todo={todo} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export default App
