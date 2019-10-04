@@ -14,6 +14,10 @@ interface ITodoComponent {
   removeTodo: (i: number) => void
 }
 
+interface addTodoProps {
+  addTodo: (text: string) => void
+}
+
 function Todo({ todo, index, completeTodo, removeTodo }: ITodoComponent) {
   return (
     <div
@@ -33,7 +37,7 @@ function Todo({ todo, index, completeTodo, removeTodo }: ITodoComponent) {
   )
 }
 
-const TodoForm = ({ addTodo }: any): any => {
+const TodoForm = ({ addTodo }: addTodoProps) => {
   const [value, setValue] = useState('')
 
   const handleSubmit = async (
@@ -77,7 +81,7 @@ function App() {
     }
   ])
 
-  const addTodo = (text: ITodos['text']): void => {
+  const addTodo: (text: string) => void = (text: ITodos['text']): void => {
     const newTodos = [...todos, { text, isCompleted: false }]
     setTodos(newTodos)
   }
